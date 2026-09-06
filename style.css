@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #e0f2fe, #f5f3ff);
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 35px 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #312e81;
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+h2 {
+    text-align: center;
+    color: #475569;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 24px;
+    margin-bottom: 22px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(30, 41, 59, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(30, 41, 59, 0.15);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #3730a3;
+    font-size: 21px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+button {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+}
+
+input[type="file"] {
+    background: white;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 22px 0;
+}
+
+/* Dashboard cards */
+
+.card:nth-child(3) {
+    border-left: 5px solid #4f46e5;
+}
+
+.card:nth-child(4) {
+    border-left: 5px solid #f59e0b;
+}
+
+.card:nth-child(5) {
+    border-left: 5px solid #10b981;
+}
+
+.card:nth-child(6) {
+    border-left: 5px solid #ec4899;
+}
+
+/* Status text */
+
+p b {
+    color: #334155;
+}
+
+/* Mobile responsive */
+
+@media (max-width: 700px) {
+
+    .container {
+        padding: 20px 12px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .card {
+        padding: 18px;
+        border-radius: 15px;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 8px;
+    }
+}

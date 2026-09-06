@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Progress Tracker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: bold;
+            color: #312e81;
+        }
+
+        .profile {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 12px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+        }
+
+        .welcome {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px;
+            border-radius: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 12px 30px rgba(79,70,229,0.25);
+        }
+
+        .welcome h1 {
+            color: white;
+            text-align: left;
+            margin: 0 0 8px;
+        }
+
+        .welcome p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 18px;
+            box-shadow: 0 7px 22px rgba(0,0,0,0.08);
+        }
+
+        .stat-icon {
+            font-size: 28px;
+        }
+
+        .stat-title {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .stat-value {
+            font-size: 27px;
+            font-weight: bold;
+            margin-top: 5px;
+            color: #312e81;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 22px;
+        }
+
+        .progress-box {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 7px 22px rgba(0,0,0,0.08);
+            margin-bottom: 22px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: {{ progress }}%;
+            background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+            border-radius: 20px;
+        }
+
+        .assignment {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .ai-card {
+            background: linear-gradient(135deg, #ecfeff, #eef2ff);
+            border: 1px solid #c7d2fe;
+        }
+
+        .ai-button {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(135deg, #0891b2, #4f46e5);
+            color: white;
+            padding: 11px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .reminder {
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+        }
+
+        @media (max-width: 800px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="brand">🎓 StudentTrack</div>
+
+        <div class="profile">
+            👤 <b>{{ username }}</b>
+        </div>
+    </div>
+
+    <!-- WELCOME -->
+    <div class="welcome">
+        <h1>Welcome back, {{ username }} 👋</h1>
+        <p>Stay organized, complete your assignments and keep progressing.</p>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-title">Total Points</div>
+            <div class="stat-value">{{ points }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-title">Progress</div>
+            <div class="stat-value">{{ progress }}%</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-title">Current Badge</div>
+            <div class="stat-value">{{ badge }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔥</div>
+            <div class="stat-title">Tasks Completed</div>
+            <div class="stat-value">{{ progress }}%</div>
+        </div>
+
+    </div>
+
+    <div class="grid">
+
+        <!-- LEFT SIDE -->
+        <div>
+
+            <!-- PROGRESS -->
+            <div class="progress-box">
+                <h3>📊 Your Learning Progress</h3>
+
+                <p>
+                    You have completed
+                    <b>{{ progress }}%</b>
+                    of your current assignments.
+                </p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+
+            <!-- ASSIGNMENTS -->
+            <div class="card">
+                <h3>📚 My Assignments</h3>
+
+                <div class="assignment">
+                    <div class="assignment-header">
+                        <b>☕ Java Programming</b>
+                        <span class="status">{{ assignment_status }}</span>
+                    </div>
+
+                    <p>📅 Deadline: 05 September</p>
+
+                    <form action="/upload" method="POST"
+                          enctype="multipart/form-data">
+
+                        <input type="file"
+                               name="assignment"
+                               required>
+
+                        <button type="submit">
+                            Upload Assignment
+                        </button>
+                    </form>
+
+                    <form action="/approve" method="POST">
+                        <button type="submit">
+                            ✅ Approve Assignment
+                        </button>
+                    </form>
+                </div>
+
+                <div class="assignment">
+                    <div class="assignment-header">
+                        <b>🗄️ DBMS</b>
+                        <span class="status">{{ dbms_status }}</span>
+                    </div>
+
+                    <p>📅 Deadline: 08 September</p>
+
+                    <form action="/upload_dbms" method="POST"
+                          enctype="multipart/form-data">
+
+                        <input type="file"
+                               name="dbms_assignment"
+                               required>
+
+                        <button type="submit">
+                            Upload DBMS Assignment
+                        </button>
+                    </form>
+                </div>
+
+                <div class="assignment">
+                    <div class="assignment-header">
+                        <b>🐍 Python</b>
+                        <span class="status">{{ python_status }}</span>
+                    </div>
+
+                    <p>📅 Deadline: 10 September</p>
+
+                    <form action="/upload_python" method="POST"
+                          enctype="multipart/form-data">
+
+                        <input type="file"
+                               name="python_assignment"
+                               required>
+
+                        <button type="submit">
+                            Upload Python Assignment
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+        <div>
+
+            <!-- REMINDER -->
+            <div class="progress-box reminder">
+                <h3>🔔 Upcoming Reminder</h3>
+
+                <p><b>Java Assignment</b></p>
+                <p>Due on 05 September</p>
+                <p>⏰ Don't forget to submit!</p>
+            </div>
+
+            <!-- AI -->
+            <div class="progress-box ai-card">
+                <h3>🤖 AI Verification</h3>
+
+                <p>
+                    Check whether your assignment is relevant
+                    before submitting.
+                </p>
+
+                <a href="/ai_verify" class="ai-button">
+                    🔍 Check Assignment
+                </a>
+            </div>
+
+            <!-- LEADERBOARD -->
+            <div class="progress-box">
+                <h3>🏆 Leaderboard</h3>
+
+                <p>🥇 You — <b>{{ points }} pts</b></p>
+                <p>🥈 Student A — 25 pts</p>
+                <p>🥉 Student B — 20 pts</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
